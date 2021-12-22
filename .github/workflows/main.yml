@@ -3,11 +3,10 @@ on:
   push:
     branches: 
       - 'master'
-  pull_request:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: mardi/quickstatements
+  IMAGE_NAME: mardi-quickstatements
 
 jobs:
   build-and-push:
