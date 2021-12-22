@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: mardi-quickstatements
+  IMAGE_NAME: quickstatements
 
 jobs:
   build-and-push:
