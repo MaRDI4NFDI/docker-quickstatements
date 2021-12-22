@@ -1,7 +1,7 @@
 FROM ubuntu:xenial as fetcher
 
 RUN apt-get update && \
-    apt-get install --yes --no-install-recommends git=1:2.* ca-certificates=201* && \
+    apt-get install --yes --no-install-recommends git=1:2.* ca-certificates && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://phabricator.wikimedia.org/source/tool-quickstatements.git quickstatements
