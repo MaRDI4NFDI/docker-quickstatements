@@ -86,7 +86,7 @@ if ( $action == 'import' ) {
 } else if ( $action == 'oauth_redirect' ) {
 
 	$oa = $qs->getOA() ;
-	$oa->doAuthorizationRedirect('api.php') ;
+	$oa->doAuthorizationRedirect() ;
 	exit(0) ;
 
 } else if ( $action == 'get_token' ) {
