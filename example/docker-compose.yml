@@ -21,6 +21,7 @@ services:
     ports:
       - "8081:80"
     volumes:
+      - ../mediawiki/Quickstatements.sh:/Quickstatements.sh
       - quickstatements-data:/quickstatements/data
     networks:
       default:
@@ -46,9 +47,10 @@ services:
          
   quickstatements:
     image: ghcr.io/mardi4nfdi/docker-quickstatements:master
-    container_name: mardi-quickstatements
+    container_name: qs-test-quickstatements
     restart: unless-stopped
     volumes:
+      - ../quickstatements/public_html:/var/www/html/quickstatements/public_html
       - quickstatements-data:/quickstatements/data
     ports:
       - "8841:80"

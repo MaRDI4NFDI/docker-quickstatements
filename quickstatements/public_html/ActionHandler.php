@@ -1,6 +1,7 @@
 <?PHP
 require_once ( 'quickstatements.php' ) ;
 
+
 /**
  * Handles actions comming into the API.
  */
@@ -55,8 +56,8 @@ class ActionHandler extends Quickstatements {
             default:
                 throw new Exception('Unknown action ' . $action);
         }
-
     }
+
 /*   
     function import() {
     	ini_set('memory_limit','1500M');

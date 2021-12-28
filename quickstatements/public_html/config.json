@@ -1,0 +1,25 @@
+{
+	"site" : "wikibase-docker" ,
+	"bot_config_file" : "/var/www/html/bot.ini" ,
+	"logfile" : "/var/log/quickstatements/tool.log" ,
+	"sites" : {
+		"wikibase-docker" : {
+			"oauth" : {
+				"language":"en" ,
+				"project":"wikibase-docker" ,
+				"ini_file":"/quickstatements/data/oauth.ini" ,
+				"publicMwOAuthUrl":"http://:8081/w/index.php?title=Special:OAuth" ,
+				"mwOAuthUrl":"http://wikibase-docker.svc/w/index.php?title=Special:OAuth" ,
+				"mwOAuthIW":"mw"
+			} ,
+			"server" : "" ,
+			"api" : "http://wikibase-docker.svc/w/api.php" ,
+			"pageBase" : "http://:8081/wiki/" ,
+			"toolBase" : "http://:8841/" ,
+			"types" : {
+				"P" : { "type":"property" , "ns":"122" , "ns_prefix":"Property:" } ,
+				"Q" : { "type":"item" , "ns":"120" , "ns_prefix":"Item:" }
+			}
+		}
+	}
+}
