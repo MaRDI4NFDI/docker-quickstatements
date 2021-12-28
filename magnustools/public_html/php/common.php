@@ -29,7 +29,11 @@ function escape_attribute ( $s ) { global $wrapper_tfc ; return $wrapper_tfc->es
 function myflush () { global $wrapper_tfc ; return $wrapper_tfc->flush() ; }
 function get_common_header ( $script , $title = '' , $p = [] ) { global $wrapper_tfc ; return $wrapper_tfc->getCommonHeader ( $title , $p ) ; }
 function get_common_footer () { global $wrapper_tfc ; return $wrapper_tfc->getCommonFooter() ; }
-function get_request ( $key , $default = "" ) {  global $wrapper_tfc , $prefilled_requests ; $wrapper_tfc->prefilled_requests = $prefilled_requests ; return $wrapper_tfc->getRequest ( $key , $default ) ; }
+function get_request ( $key , $default = "" ) {  
+    global $wrapper_tfc , $prefilled_requests ; 
+    $wrapper_tfc->prefilled_requests = $prefilled_requests ; 
+    return $wrapper_tfc->getRequest ( $key , $default ) ; 
+}
 
 # Database access
 function openToolDB ( $dbname = '' , $server = '' , $force_user = '' ) { global $wrapper_tfc ; return $wrapper_tfc->openDBtool($dbname,$server,$force_user) ; }
