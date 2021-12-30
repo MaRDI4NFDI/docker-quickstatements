@@ -3,7 +3,7 @@ MaRDI fork of quickstatements projekt
 `docker build -t ghcr.io/mardi4nfdi/docker-quickstatements:master .`
 
 Create OAuth key and secret in the wiki
-`docker exec -ti qs-test-wikibase bash /QuickStatements.sh`
+`docker exec -ti qs-test-wikibase bash /Quickstatements.sh`
 
 Test locally
 ```

@@ -11,7 +11,7 @@ x-common-variables: &wikibase_variables
   DB_PASS: ${DB_PASS}
   DB_NAME: ${DB_NAME}
   QS_PUBLIC_SCHEME_HOST_AND_PORT: http://localhost:8841
-
+  
 services:
   wikibase:
     image: wikibase/wikibase-bundle:1.35.4-wmde.2
@@ -23,7 +23,8 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - ../mediawiki/QuickStatements.sh:/QuickStatements.sh
+      - ../mediawiki/Quickstatements.sh:/Quickstatements.sh
+      - ../mediawiki/LocalSettings.override.php:/var/www/html/LocalSettings.d/LocalSettings.override.php
       - quickstatements-data:/quickstatements/data
     networks:
       default:
@@ -50,9 +51,9 @@ services:
   quickstatements:
     image: ghcr.io/mardi4nfdi/docker-quickstatements:master
     container_name: qs-test-quickstatements
-    restart: unless-stopped
     volumes:
       - ../quickstatements/public_html:/var/www/html/quickstatements/public_html
+      - ../magnustools:/var/www/html/magnustools
       - quickstatements-data:/quickstatements/data
     ports:
       - "8841:80"
@@ -63,10 +64,9 @@ services:
         aliases:
          - quickstatements.svc
     environment:
-      - QUICKSTATEMENTS_HOST
       - WIKIBASE_SCHEME_AND_HOST=http://wikibase-docker.svc
-      - QS_PUBLIC_SCHEME_HOST_AND_PORT=http://${QUICKSTATEMENTS_HOST}:${QUICKSTATEMENTS_PORT}
-      - WB_PUBLIC_SCHEME_HOST_AND_PORT=http://${WIKIBASE_HOST}:${WIKIBASE_PORT}
+      - QS_PUBLIC_SCHEME_HOST_AND_PORT=http://localhost:8841
+      - WB_PUBLIC_SCHEME_HOST_AND_PORT=http://localhost:8081
       - WB_PROPERTY_NAMESPACE=122
       - "WB_PROPERTY_PREFIX=Property:"
       - WB_ITEM_NAMESPACE=120

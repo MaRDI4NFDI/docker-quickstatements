@@ -5,7 +5,8 @@ php /var/www/html/extensions/OAuth/maintenance/createOAuthConsumer.php \
     --approve \
     --callbackUrl  "$QS_PUBLIC_SCHEME_HOST_AND_PORT/api.php" \
     --callbackIsPrefix true --user "$MW_ADMIN_NAME" --name QuickStatements --description QuickStatements --version 1.0.1 \
-    --grants createeditmovepage --grants editpage --grants highvolume --jsonOnSuccess > /quickstatements/data/qs-oauth.json
+    --grants createeditmovepage --grants editpage --grants highvolume --jsonOnSuccess > /quickstatements/data/qs-oauth.json \
+    --conf /var/www/html/LocalSettings.php
 
 if [[ -f /quickstatements/data/qs-oauth.json ]]; then
     OAUTH_CONSUMER_KEY=$(grep -o '"key":"[^"]*' /quickstatements/data/qs-oauth.json | grep -o '[^"]*$')
