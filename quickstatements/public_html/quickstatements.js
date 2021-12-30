@@ -390,6 +390,7 @@ var QuickStatements = {
 	runSingleCommand : function ( cmdnum ) {
 		var me = this ;
 		var cmd = me.data.commands[cmdnum] ;
+
 		me.setCommandStatus ( cmdnum , 'running' ) ;
 		me.updateRunStatus() ;
 		$.post ( me.api , {
@@ -863,6 +864,7 @@ var QuickStatements = {
 		} else if ( cmd.action == 'create' ) {
 			tabs[1] = me.renderAction ( cmd ) ;
 			tabs[2] = cmd.type ;
+
 		} else { // Unknown
 			tabs[5] = JSON.stringify(cmd) ;
 		}

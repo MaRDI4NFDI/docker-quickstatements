@@ -132,6 +132,7 @@ class QuickStatements {
 		return $ret ;
 	}
 	
+	// Please refactor these as objects: importData, importDataFromV1, importDataFromCSV 
 	public function importData ( $data , $format , $persistent = false ) {
 		$ret = array ( "status" => "OK" ) ;
 		$format = trim ( strtolower ( $format ) ) ;
@@ -493,6 +494,7 @@ class QuickStatements {
 	protected function createNewItem ( $command ) {
 		$data = '{}' ;
 		if ( isset($command->data) ) $data = json_encode ( $this->array2object ( $command->data ) ) ;
+
 		$this->runAction ( array (
 			'action' => 'wbeditentity' ,
 			'new' => $command->type ,
@@ -747,6 +749,7 @@ print "\nFALSE\n" ;
 
 		$result = (object) array() ;
 		$status = false ;
+		
 		if ( $this->use_oauth ) {
 			$oa = $this->getOA() ;
 			$status = $oa->genericAction ( $params ) ;
@@ -1021,7 +1024,7 @@ exit ( 1 ) ; // Force bot restart
 		return "[[:toollabs:editgroups/b/CB/{$this->temporary_batch_id}|details]]" ;
 	}
 	
-	public function runSingleCommand ( $command ) {
+	public function runSingleCommand ( $command ) {	
 		if ( $this->sleep != 0 ) sleep ( $this->sleep ) ;
 		if ( !isset($command) ) return $this->commandError ( $command , "Empty command" ) ;
 		$command->status = 'working' ;
@@ -1209,6 +1212,7 @@ exit ( 1 ) ; // Force bot restart
 		return preg_match ( '/^(?:[PQLM]\d+|L\d+-[FS]\d+)$/' , $q ) ;
 	}
 
+    // refactor!!!
     protected function importDataFromCSV ( $data, &$ret ) {
         $commands = [];
         $ret['data']['commands'] = &$commands;
@@ -1262,6 +1266,8 @@ exit ( 1 ) ; // Force bot restart
                         'property' => $instruction
                     ];
                     $this->parseValueV1( $value, $command );
+                    error_log('importDataFromCSV');
+                    error_log(print_r($command, true));
                     $lastStatementProperty = $instruction;
                     $lastStatementDatavalue = $command['datavalue'];
                     unset( $lastSources ); // break reference
@@ -1375,9 +1381,12 @@ exit ( 1 ) ; // Force bot restart
 #		return @iconv('UTF-8', 'UTF-8//IGNORE', $s) ;
 	}
 	
+	// Function name is wrong, as used to parse CSV values too. 
+	// Refactor using class inheritance to correct this.
 	protected function parseValueV1 ( $v , &$cmd ) {
+
 		$v = trim ( $v ) ;
-		
+
 		if ( $v == 'somevalue' || $v == 'novalue' ) {
 			$cmd['datavalue'] = array ( "value"=>$v, "type"=>$v ) ;
 			return true ;
@@ -1393,6 +1402,7 @@ exit ( 1 ) ; // Force bot restart
 			return true ;
 		}
 		
+        // This never matches, as quotes are stripped from strings
 		if ( preg_match ( '/^"(.*)"$/i' , $v , $m ) ) { // STRING
 			$cmd['datavalue'] = array ( "type"=>"string" , "value"=>trim($this->enforceStringEncoding($m[1])) ) ;
 			return true ;
@@ -1434,6 +1444,7 @@ exit ( 1 ) ; // Force bot restart
 			) ) ;
 			return true ;
 		}
+		
 		if ( preg_match ( '/^([\+\-]{0,1}\d+(\.\d+){0,1})\s*~\s*([\+\-]{0,1}\d+(\.\d+){0,1})(U(\d+)){0,1}$/' , $v , $m ) ) { // Quantity with error
 			$value = $m[1]*1 ;
 			$error = $m[3]*1 ;
@@ -1446,6 +1457,11 @@ exit ( 1 ) ; // Force bot restart
 			return true ;
 		}
 		
+		// Quotes are stripped from strings, so match anything as string value by default
+		if ( preg_match ( '/(.*)/i' , $v , $m ) ) { // STRING
+			$cmd['datavalue'] = array ( "type"=>"string" , "value"=>trim($this->enforceStringEncoding($m[1])) ) ;
+			return true ;
+		}
 		
 		$cmd['datavalue'] = array ( "type"=>"unknown" , "text"=>$v ) ;
 		$cmd['error'] = array('PARSE','Unknown V1 value format') ;

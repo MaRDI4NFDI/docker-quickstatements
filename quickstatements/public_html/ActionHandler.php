@@ -5,7 +5,7 @@ require_once ( 'quickstatements.php' ) ;
  * Handles actions comming into the API.
  */
 class ActionHandler extends Quickstatements {
-    function handle($action) {
+    function handle($action, $out) {
         switch($action) {
             /*
             case 'import':
@@ -13,7 +13,7 @@ class ActionHandler extends Quickstatements {
                 break;
             */
             case 'oauth_redirect':
-                $this->oauth_redirect();
+                $this->oauth_redirect($out);
                 break;
             /*
             case 'get_token':
@@ -21,7 +21,7 @@ class ActionHandler extends Quickstatements {
                 break;
             */
             case 'is_logged_in':
-                $this->is_logged_in();
+                $out = $this->is_logged_in($out);
                 break;
             /*
             case 'get_batch_info':
@@ -55,8 +55,9 @@ class ActionHandler extends Quickstatements {
             default:
                 throw new Exception('Unknown action ' . $action);
         }
-
+        return $out;
     }
+
 /*   
     function import() {
     	ini_set('memory_limit','1500M');
@@ -116,16 +117,18 @@ class ActionHandler extends Quickstatements {
     }
     */
     /**
-     * Uses $oa object created in is_logged_in to get a token and authorize the user.
-     * Reads OAUth secret and key from /quickstatements/data/oauth.ini
-     * This file has to exist.
+     * - Uses $oa object created in is_logged_in to get a token and authorize the user.
+     * - Reads OAUth secret and key from /quickstatements/data/oauth.ini
+     *   (oauth.ini is created by entrypoint.sh, but has to be filled 
+     *    by running mediawiki/QuickStatements.sh inside the wiki container)
+     * - redirects to the URL given in WB_PUBLIC_SCHEME_HOST_AND_PORT in docker-compose
      * 
-     * @return NULL
+     * @return void
      * @see magnustools/public_html/php/oauth.php
      */
-    function oauth_redirect() {    
-    	$oa = $this->getOA() ;
-    	$oa->doAuthorizationRedirect() ;
+    function oauth_redirect($out) {
+    	$oa = $this->getOA();
+    	$oa->doAuthorizationRedirect();
     	exit(0) ;    
     } 
     
@@ -150,16 +153,17 @@ class ActionHandler extends Quickstatements {
      * - checks authorization, writes an error into $oa otherwise
      * - writes authorisation flags into $out['data']
      *
-     * @return NULL
+     * @return void
      */
-    function is_logged_in() {
-    	$oa = $this->getOA() ;
-    	$ili = $oa->isAuthOK() ; // return true/false
-    	$out['data'] = (object) array() ;
+    function is_logged_in($out) {
+    	$oa = $this->getOA();
+    	$ili = $oa->isAuthOK(); // $ili is true/false
+    	$out['data'] = (object) array();
     	if ( $ili ) {
-    		$out['data'] = $oa->getConsumerRights() ;
+    		$out['data'] = $oa->getConsumerRights();
     	}
-    	$out['data']->is_logged_in = $ili ;   
+    	$out['data']->is_logged_in = $ili; 
+    	return $out;
     }
     
     /*    

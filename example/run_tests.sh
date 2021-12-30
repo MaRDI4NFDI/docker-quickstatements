@@ -1,3 +1,3 @@
 #!/usr/bin/bash
 
-docker exec quickstatements-test-selenium bash ./start_test_runner.sh test/
+docker exec qs-test-selenium bash ./start_test_runner.sh test/

@@ -10,17 +10,21 @@ x-common-variables: &wikibase_variables
   DB_USER: ${DB_USER}
   DB_PASS: ${DB_PASS}
   DB_NAME: ${DB_NAME}
-
+  QS_PUBLIC_SCHEME_HOST_AND_PORT: http://localhost:8841
+  
 services:
   wikibase:
-    image: "${WIKIBASE_BUNDLE_IMAGE_NAME}"
+    image: wikibase/wikibase-bundle:1.35.4-wmde.2
+    container_name: qs-test-wikibase
     links:
       - mysql
     depends_on:
       - mysql
     ports:
-      - "${WIKIBASE_PORT}:80"
+      - "8081:80"
     volumes:
+      - ../mediawiki/Quickstatements.sh:/Quickstatements.sh
+      - ../mediawiki/LocalSettings.override.php:/var/www/html/LocalSettings.d/LocalSettings.override.php
       - quickstatements-data:/quickstatements/data
     networks:
       default:
@@ -30,7 +34,7 @@ services:
       <<: *wikibase_variables
 
   mysql:
-    image: "${MYSQL_IMAGE_NAME}"
+    image: mariadb:10.3
     volumes:
       - mediawiki-mysql-data:/var/lib/mysql
     environment:
@@ -43,6 +47,38 @@ services:
       default:
         aliases:
          - mysql.svc
+         
+  quickstatements:
+    image: ghcr.io/mardi4nfdi/docker-quickstatements:master
+    container_name: qs-test-quickstatements
+    volumes:
+      - ../quickstatements/public_html:/var/www/html/quickstatements/public_html
+      - ../magnustools:/var/www/html/magnustools
+      - quickstatements-data:/quickstatements/data
+    ports:
+      - "8841:80"
+    depends_on:
+      - wikibase
+    networks:
+      default:
+        aliases:
+         - quickstatements.svc
+    environment:
+      - WIKIBASE_SCHEME_AND_HOST=http://wikibase-docker.svc
+      - QS_PUBLIC_SCHEME_HOST_AND_PORT=http://localhost:8841
+      - WB_PUBLIC_SCHEME_HOST_AND_PORT=http://localhost:8081
+      - WB_PROPERTY_NAMESPACE=122
+      - "WB_PROPERTY_PREFIX=Property:"
+      - WB_ITEM_NAMESPACE=120
+      - "WB_ITEM_PREFIX=Item:"
+      - OAUTH_CONSUMER_KEY=${OAUTH_CONSUMER_KEY}
+      - OAUTH_CONSUMER_SECRET=${OAUTH_CONSUMER_SECRET}
+
+  selenium:
+    image: aot29/selenium
+    container_name: qs-test-selenium
+    volumes:
+      - ./test:/test
 
   quickstatements:
     image: "${QUICKSTATEMENTS_IMAGE_NAME}"

@@ -39,11 +39,11 @@ class MW_OAuth {
 			else $this->apiUrl = "https://$l.$p.org/w/api.php" ;
 		}
 
+        // Set the URL where to identify with the wiki using OAuth
 		if ( !isset( $this->publicMwOAuthUrl )) {
 			$this->publicMwOAuthUrl = $this->mwOAuthUrl;
 		}
 		if ( $oauth_url != '' ) $this->publicMwOAuthUrl = $oauth_url ;
-
 
 		$this->loadIniFile() ;
 		$this->setupSession() ;
@@ -1127,9 +1127,9 @@ class MW_OAuth {
 		$j->bot = 1 ;
 		
 		$params = [] ;
-		foreach ( $j AS $k => $v ) $params[$k] = $v ;
-
-
+		foreach ( $j AS $k => $v ) {
+    		$params[$k] = $v;
+		}
 		$this->setToolTag($params,$summary);
 		
 		if ( isset ( $_REQUEST['test'] ) ) {
