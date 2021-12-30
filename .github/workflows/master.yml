@@ -2,7 +2,7 @@ name: docker-quickstatements-actions-workflow
 on: 
   push:
     branches: 
-      - 'dev'
+      - 'master'
 
 env:
   REGISTRY: ghcr.io
