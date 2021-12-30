@@ -27,12 +27,14 @@ $factory = new HandlerFactory();
 try {
     if (isset($_REQUEST['oauth_verifier'])) {
         $handler = $factory->createHandler('oauth_verifier');    	
+        $out = $handler->handle($out);
     } elseif (array_key_exists('action', $_REQUEST)) {
         $action = $_REQUEST['action'];
         $handler = $factory->createHandler($action);
+        $out = $handler->handle($out);
     }
-    $out = $handler->handle($out);
-
+    // if no action specified, do nothing, do not call $handler->handle($out)
+    
 } catch (Exception $e) {
     error_log($e->getMessage());
     exit(1);
