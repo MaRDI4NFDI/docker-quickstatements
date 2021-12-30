@@ -80,38 +80,6 @@ services:
     volumes:
       - ./test:/test
 
-  quickstatements:
-    image: "${QUICKSTATEMENTS_IMAGE_NAME}"
-    volumes:
-      - quickstatements-data:/quickstatements/data
-      - ../quickstatements/public_html:/var/www/html/quickstatements/public_html
-    ports:
-      - "${QUICKSTATEMENTS_PORT}:80"
-    depends_on:
-      - wikibase
-    networks:
-      default:
-        aliases:
-         - quickstatements.svc
-    environment:
-      - QUICKSTATEMENTS_HOST
-      - WIKIBASE_SCHEME_AND_HOST=http://wikibase-docker.svc
-      - QS_PUBLIC_SCHEME_HOST_AND_PORT=http://${QUICKSTATEMENTS_HOST}:${QUICKSTATEMENTS_PORT}
-      - WB_PUBLIC_SCHEME_HOST_AND_PORT=http://${WIKIBASE_HOST}:${WIKIBASE_PORT}
-      - WB_PROPERTY_NAMESPACE=122
-      - "WB_PROPERTY_PREFIX=Property:"
-      - WB_ITEM_NAMESPACE=120
-      - "WB_ITEM_PREFIX=Item:"
-      - OAUTH_CONSUMER_KEY=${OAUTH_CONSUMER_KEY}
-      - OAUTH_CONSUMER_SECRET=${OAUTH_CONSUMER_SECRET}
-        # Management console for docker
-    
-  selenium:
-    image: aot29/selenium
-    container_name: quickstatements-test-selenium
-    volumes:
-      - ./test:/test
-
 volumes:
   mediawiki-mysql-data:
   quickstatements-data:

@@ -46,5 +46,5 @@ try {
     error_log($e->getMessage());
     exit(1);
 }
-
+fin();
 ?>
