@@ -1266,8 +1266,6 @@ exit ( 1 ) ; // Force bot restart
                         'property' => $instruction
                     ];
                     $this->parseValueV1( $value, $command );
-                    error_log('importDataFromCSV');
-                    error_log(print_r($command, true));
                     $lastStatementProperty = $instruction;
                     $lastStatementDatavalue = $command['datavalue'];
                     unset( $lastSources ); // break reference
@@ -1384,7 +1382,6 @@ exit ( 1 ) ; // Force bot restart
 	// Function name is wrong, as used to parse CSV values too. 
 	// Refactor using class inheritance to correct this.
 	protected function parseValueV1 ( $v , &$cmd ) {
-
 		$v = trim ( $v ) ;
 
 		if ( $v == 'somevalue' || $v == 'novalue' ) {

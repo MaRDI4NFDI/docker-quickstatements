@@ -171,7 +171,6 @@ class RunSingleCommand extends Quickstatements implements Handler {
   		$oa = $this->getOA();
   		$oa->delay_after_create_s = 0;
   		$oa->delay_after_edit_s = 0;
-  		
   		$this->last_item = get_request('last_item', '');
   		$command = json_decode(get_request('command', ''));
   		if ($command == null) {
@@ -182,7 +181,7 @@ class RunSingleCommand extends Quickstatements implements Handler {
   		}
   		// $command->data->claims[0]->mainsnak->datavalue->type = 'string';
     	// error_log(print_r($command->data->claims[0]->mainsnak->datavalue->type, true));
-    	error_log(print_r($command->data->claims[0]->mainsnak, true));
+    	//error_log(print_r($command->data->claims[0]->mainsnak, true));
     	$out['command'] = $this->runSingleCommand($command);
     	$out['last_item'] = $this->last_item;
     	

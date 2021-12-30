@@ -22,6 +22,11 @@ COPY config.json /templates/config.json
 COPY oauth.ini /templates/oauth.ini
 COPY php.ini /templates/php.ini
 
+# patches
+COPY quickstatements/public_html/api.php /var/www/html/quickstatements/public_html
+COPY quickstatements/public_html/HandlerFactory.php /var/www/html/quickstatements/public_html
+COPY quickstatements/public_html/quickstatements.php /var/www/html/quickstatements/public_html
+
 ENV APACHE_DOCUMENT_ROOT /var/www/html/quickstatements/public_html
 RUN sed -ri -e "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-available/*.conf
 RUN sed -ri -e "s!/var/www/!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
