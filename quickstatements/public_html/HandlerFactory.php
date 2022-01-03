@@ -23,6 +23,9 @@ class HandlerFactory {
             case 'run_single_command':
                 return new RunSingleCommand();
                 break;
+            case 'run_batch':
+                return new RunBatch();
+                break;
                 
             default:
                 throw new Exception('Unknown handler ' . $name);
@@ -193,5 +196,27 @@ class RunSingleCommand extends Quickstatements implements Handler {
         }
     	return $out;
     }
+}
+
+class RunBatch extends Quickstatements implements Handler {
+    public function handle($out) {
+    	$user_id = $this->getCurrentUserID();
+    	$name = trim(get_request('name' , ''));
+    	$site = strtolower(trim(get_request('site' , '')));
+    	if ($user_id === false) {
+    		$out['status'] = $this->last_error_message ;
+    	} else {
+    		$commands = json_decode(get_request('commands', '[]'));
+    		$batch_id = $this->addBatch($commands, $user_id, $name, $site);
+    		if ($batch_id === false) {
+    			$out['status'] = $this->last_error_message;
+    		} else {
+    			$out['batch_id'] = $batch_id;
+    		}
+    	}
+    //	$this->addBatch ( $commands ) ;
+    	return $out;
+    }
+
 }
 ?>
