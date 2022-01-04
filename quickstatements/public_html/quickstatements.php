@@ -1456,7 +1456,8 @@ exit ( 1 ) ; // Force bot restart
 		
 		// Quotes are stripped from strings, so match anything as string value by default
 		if ( preg_match ( '/(.*)/i' , $v , $m ) ) { // STRING
-			$cmd['datavalue'] = array ( "type"=>"string" , "value"=>trim($this->enforceStringEncoding($m[1])) ) ;
+    		$val = trim($this->enforceStringEncoding($m[1]),'\'"');
+			$cmd['datavalue'] = array ( "type"=>"string" , "value"=>trim($val));
 			return true ;
 		}
 		

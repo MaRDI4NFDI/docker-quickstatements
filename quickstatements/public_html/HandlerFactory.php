@@ -165,6 +165,9 @@ class Import extends Quickstatements implements Handler {
     }
 }
 
+/**
+ * Processes a single line of input data.
+ */
 class RunSingleCommand extends Quickstatements implements Handler {
     public function handle($out) {
     	$site = strtolower(trim(get_request('site', '')));

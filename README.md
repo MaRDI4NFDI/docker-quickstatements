@@ -12,7 +12,9 @@ docker-compose up -d
 * API is at http://localhost:8841/api.php
 
 Wait for the containers to start. Only then create OAuth key and secret in the wiki
-`docker exec -ti qs-test-wikibase bash /Quickstatements.sh`
+```
+docker exec -ti qs-test-wikibase bash /Quickstatements.sh
+```
 
 Run tests (from within ./example dir)
 ```
