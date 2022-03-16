@@ -36,6 +36,9 @@ To do
 * Document the authentication process and the required configuration parameters
 * Document batch import installation and usage
 
+Patches are in the folder: docker-quickstatements/quickstatements/public_html/
+
+
 # Using the image
 You can use the pre-built image, e.g. using docker-compose, by pulling `ghcr.io/mardi4nfdi/docker-quickstatements:master`.
 
