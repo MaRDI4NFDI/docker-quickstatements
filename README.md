@@ -21,6 +21,10 @@ Run tests (from within ./example dir)
 bash ./run_tests.sh
 ```
 
+This fixes some issues in importing data in the quickstaments. 
+
+
+
 More information:
 # About MaRDI
 The mission of the Mathematical Research Data Initiative (MaRDI) is explained [here](https://www.mardi4nfdi.de/about/mission).
