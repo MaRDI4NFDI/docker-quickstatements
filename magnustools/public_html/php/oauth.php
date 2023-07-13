@@ -1,5 +1,4 @@
 <?PHP
-
 class MW_OAuth {
 
 	var $use_tag_parameter = true ;
@@ -21,6 +20,14 @@ class MW_OAuth {
 	var $delay_after_edit_s = 1 ;
 	var $delay_after_upload_s = 1 ;
 	var $cookie_best_before = 60*60*24*30*3 ;# expires in three months
+	// PHP 8.2 deprecated AllowDynamicProperties
+	var $apiUrl; //maybe private?
+	var $gUserAgent;
+	var $gConsumerKey;
+	var $gConsumerSecret;
+	var $gTokenKey;
+	var $gTokenSecret;
+	
 	
 	function __construct ( $t , $l = '' , $p = '' , $oauth_url = '' ) {
 		if ( is_array($t) ) { // Bespoke override for third-party sites
