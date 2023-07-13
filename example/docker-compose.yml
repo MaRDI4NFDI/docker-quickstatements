@@ -39,16 +39,14 @@ services:
       - mediawiki-mysql-data:/var/lib/mysql
     environment:
       # CONFIG - Change the default values below (should match values passed to wikibase)
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME:-dbname}
+      MYSQL_USER: ${DB_USER:-dbuser}
+      MYSQL_PASSWORD: ${DB_PASS:-dbpass}
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     networks:
       default:
         aliases:
          - mysql.svc
-    environment:
-      <<: *wikibase_variables
          
   quickstatements:
     image: ghcr.io/mardi4nfdi/docker-quickstatements:master
