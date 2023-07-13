@@ -21,9 +21,6 @@ Run tests (from within ./example dir)
 bash ./run_tests.sh
 ```
 
-This fixes some issues in importing data in the quickstaments. 
-
-
 
 More information:
 # About MaRDI
