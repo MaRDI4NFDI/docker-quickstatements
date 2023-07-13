@@ -4,8 +4,6 @@
  * Forked from https://phabricator.wikimedia.org/source/tool-quickstatements/browse/master/
  * see https://github.com/MaRDI4NFDI/docker-quickstatements/wiki
  */
-error_reporting(E_ERROR|E_CORE_ERROR|E_ALL|E_COMPILE_ERROR); // 
-ini_set('display_errors', 'On');
 
 // return JSON by default
 if ( !isset($_REQUEST['openpage']) ) {
