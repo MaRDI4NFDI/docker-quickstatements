@@ -5,7 +5,7 @@ COPY /quickstatements /quickstatements
 WORKDIR /quickstatements
 RUN composer install --no-dev
 
-FROM php:8.0.2-apache
+FROM php:8-apache
 
 # Install envsubst
 RUN apt-get update && \
